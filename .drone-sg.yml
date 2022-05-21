@@ -1,0 +1,38 @@
+kind: pipeline
+type: docker
+name: default
+
+trigger:
+  branch:
+  - sg
+
+steps:
+- name: build
+  image: %%{GolangDevImage}:1-alpine
+  pull: always
+  settings:
+    build_script: build.sh
+
+- name: scan
+  image: %%{NcicdDockerRepo}/cicd/nancy:latest
+  pull: always
+  failure: ignore
+  depends_on:
+  - build
+
+- name: create-image
+  image: %%{DroneDockerImage}:20220215
+  settings:
+    repo: %%{NcicdDockerRepo}/cicd/drone-docker
+    dockerfile: Dockerfile.ysg9
+    build_args:
+    - BASE_IMAGE=%%{BaseAlpineImage}:latest
+    tags:
+    - 20220215
+    - latest
+  depends_on:
+  - scan
+  when:
+    event:
+    - promote
+
