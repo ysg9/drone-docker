@@ -67,7 +67,7 @@ func main() {
 		cli.StringFlag{
 			Name:   "daemon.bip",
 			Usage:  "docker daemon bride ip address",
-			EnvVar: "PLUGIN_BIP",
+			EnvVar: "PLUGIN_BIP,DOCKER_PLUGIN_BIP",
 		},
 		cli.StringFlag{
 			Name:   "daemon.mtu",
@@ -77,7 +77,7 @@ func main() {
 		cli.StringSliceFlag{
 			Name:   "daemon.dns",
 			Usage:  "docker daemon dns server",
-			EnvVar: "PLUGIN_CUSTOM_DNS",
+			EnvVar: "PLUGIN_CUSTOM_DNS,DOCKER_PLUGIN_CUSTOM_DNS",
 		},
 		cli.StringSliceFlag{
 			Name:   "daemon.dns-search",
